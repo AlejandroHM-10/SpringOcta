@@ -1,0 +1,57 @@
+package com.octaspring.service;
+
+import java.util.List;
+
+import javax.sql.DataSource;
+
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+
+import com.octaspring.dao.LangInterface;
+import com.octaspring.entity.Lang;
+
+public class LangService implements LangInterface{
+	
+	private JdbcTemplate jdbcTemplate;
+	String sql;
+	
+	public LangService(DataSource dataSource) {
+		this.jdbcTemplate = new JdbcTemplate(dataSource);
+	}
+	
+
+	public void save(Lang lang) {
+		// TODO Auto-generated method stub
+		sql= "INSERT INTO lang(lang) values(?)";
+		jdbcTemplate.update(sql, lang.getLang());
+		
+	}
+
+
+	public void update(Lang lang) {
+		// TODO Auto-generated method stub
+		sql= "UPDATE lang SET lang = ? WHERE id = ?";
+		jdbcTemplate.update(sql, lang.getLang(), lang.getId());
+	}
+
+
+	public void delete(long id) {
+		// TODO Auto-generated method stub
+		sql= "DELETE FROM lang WHERE id = ?";
+		jdbcTemplate.update(sql, id);
+		
+	}
+
+
+	public List<Lang> findAll() {
+		//System.out.println("Atrapalos a todos");
+		sql = "SELECT * FROM lang";
+		return this.jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Lang.class));
+	}
+
+	public List<Lang> findById(long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}
